@@ -1,9 +1,10 @@
 const express = require("express");
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// Middleware - บอกวิธีการที่ client ส่งข้อมูลผ่าน middleware
+app.use(bodyParser.urlencoded({extended:false})) // ส่งผ่าน Form
+app.use(bodyParser.json()) // ส่งด้วย Data JSON
 
 const mysql = require("mysql2/promise");
 const dbConn = mysql.createConnection({
@@ -29,42 +30,58 @@ app.get('/students/:id', async (req,res)=>{
     res.send(rows)
 })
 
+// Lab 3 ข้อ 3 เมื่อ Delete แล้วควรส่ง status แจ้งให้ผู้ใช้ทราบด้วย เช่น code 204
+// localhost:3000/students/2
+app.delete('/students/:id', async (req,res)=>{
 
-app.delete("/students/:id", async (req, res) => {
-    const id = req.params.id;
     const connection = await dbConn
-    await connection.query('DELETE FROM students WHERE id = ' + id)
-    res.status(204).send();
+    await connection.query('Delete from students where id = ' +req.params.id)
+    res.status(204).send("Deleted id " + req.params.id + " successful" )
 })
+
+// Lab 3 ข้อ 4 ทำ POST /students สำหรับข้อมูล student 1 คน
+// JSON Body-Parser 
 /*
 {
-    "name": "Oak",
-    "age": 26,
-    "phone": "0123456789",
-    "email": "oak@gmail.com"
+    "name":"Oak",
+    "age":"22",
+    "phone":555,
+    "email":"oak@email.com"
 }
 */
 app.post("/students", async (req, res) => {
+    // ส่งข้อมูลผ่าน body-parser (Middleware)
     const name = req.body.name;
     const age = req.body.age;
     const phone = req.body.phone;
     const email = req.body.email;
 
     const connection = await dbConn
-    const rows = await connection.query(`INSERT INTO students(name, age, phone, email) values ("${name}", ${age}, "${phone}", "${email}")`)
-    res.status(201).send({ result: "success" });
+    const rows = await connection.query("insert into students (name,age,phone,email) values('"+name+"','"+age+"',"+phone+",'"+email+"')")
+    res.status(201).send(rows)
 })
 
+// PUT
+/*
+{
+    "name":"Oak",
+    "age":"22",
+    "phone":555,
+    "email":"oak@email.com"
+}
+*/
 app.put("/students/:id", async (req, res) => {
+    // รับ id จาก params
     const id = req.params.id;
+    // ส่งข้อมูลผ่าน body-parser (Middleware)
     const name = req.body.name;
-    const age = +req.body.age;
+    const age = req.body.age;
     const phone = req.body.phone;
     const email = req.body.email;
 
     const connection = await dbConn
-    const rows = await connection.query(`UPDATE students SET name = "${name}", age = ${age}, phone = "${phone}", email = "${email}" WHERE id = ${id}`)
-    res.status(201).send({ result: "update success" });
+    const rows = await connection.query("Update students set name = '"+name+"', age = '"+age+"', phone = "+phone+", email = '"+email+"' where id = "+id+" ")
+    res.status(201).send(rows)
 })
 
 
