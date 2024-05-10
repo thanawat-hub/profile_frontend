@@ -11,11 +11,11 @@ const dbConn = mysql.createConnection({
     host: 'localhost',
     user: 'root', // <== ระบุให้ถูกต้อง
     password: '',  // <== ระบุให้ถูกต้อง
-    database: 'pim_database',
+    database: 'student_database',
     port: 3306  // <== ใส่ port ให้ถูกต้อง (default 3306, MAMP ใช้ 8889)
 });
 
-// Lab 3 ข้อ 1 GET students
+//  GET students
 
 app.get('/students', async (req,res) => {
     const connection = await dbConn
@@ -23,14 +23,14 @@ app.get('/students', async (req,res) => {
     res.send(rows)
 })
 
-// Lab 3 ข้อ 2 GET students/:id 
+// GET students/:id 
 app.get('/students/:id', async (req,res)=>{
     const connection = await dbConn
     const rows = await connection.query('SELECT * from students where id = ' +req.params.id)
     res.send(rows)
 })
 
-// Lab 3 ข้อ 3 เมื่อ Delete แล้วควรส่ง status แจ้งให้ผู้ใช้ทราบด้วย เช่น code 204
+// เมื่อ Delete แล้วควรส่ง status แจ้งให้ผู้ใช้ทราบด้วย เช่น code 204
 // localhost:3000/students/2
 app.delete('/students/:id', async (req,res)=>{
 
@@ -39,7 +39,7 @@ app.delete('/students/:id', async (req,res)=>{
     res.status(204).send("Deleted id " + req.params.id + " successful" )
 })
 
-// Lab 3 ข้อ 4 ทำ POST /students สำหรับข้อมูล student 1 คน
+// ทำ POST /students สำหรับข้อมูล student 1 คน
 // JSON Body-Parser 
 /*
 {
