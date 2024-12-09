@@ -1,0 +1,21 @@
+# Node.js dependencies (if using Node for build tools or package management)
+node_modules/
+
+# Build output (if you're using tools like Webpack, Grunt, Gulp, etc.)
+dist/
+build/
+
+# OS-specific files
+.DS_Store    # macOS
+Thumbs.db    # Windows
+
+# Editor/IDE files
+.vscode/
+.idea/
+
+# Temporary files created by editors
+*.swp
+*.bak
+*.tmp
+
+.idea
