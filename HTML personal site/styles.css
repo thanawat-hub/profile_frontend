@@ -1,0 +1,31 @@
+
+.fit-picture {
+    width: 1024px;
+  }
+
+
+
+table, td {
+  border: dashed rgb(0 0 0);
+}
+
+h2 {
+  color: rgb(141 214 12);
+}
+
+.blue-table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #add8e6; /* สีฟ้า */
+    text-align: left;
+}
+
+.blue-table th, .blue-table td {
+    border: 1px solid #000; /* เส้นขอบดำ */
+    padding: 8px;
+}
+
+.blue-table th {
+    background-color: #87ceeb; /* สีฟ้าเข้มสำหรับหัวข้อ */
+    color: white;
+}
